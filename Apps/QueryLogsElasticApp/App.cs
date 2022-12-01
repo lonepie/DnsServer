@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TechnitiumLibrary.Net.Dns;
 using TechnitiumLibrary.Net.Dns.ResourceRecords;
+using Elastic.Clients.Elasticsearch;
 
 namespace QueryLogsElastic
 {
@@ -34,6 +35,31 @@ namespace QueryLogsElastic
         public Task<DnsLogPage> QueryLogsAsync(long pageNumber, int entriesPerPage, bool descendingOrder, DateTime? start, DateTime? end, IPAddress clientIpAddress, DnsTransportProtocol? protocol, DnsServerResponseType? responseType, DnsResponseCode? rcode, string qname, DnsResourceRecordType? qtype, DnsClass? qclass)
         {
             throw new NotImplementedException();
+        }
+        class LogEntry
+        {
+            #region variables
+
+            public readonly DateTime Timestamp;
+            public readonly DnsDatagram Request;
+            public readonly IPEndPoint RemoteEP;
+            public readonly DnsTransportProtocol Protocol;
+            public readonly DnsDatagram Response;
+
+            #endregion
+
+            #region constructor
+
+            public LogEntry(DateTime timestamp, DnsDatagram request, IPEndPoint remoteEP, DnsTransportProtocol protocol, DnsDatagram response)
+            {
+                Timestamp = timestamp;
+                Request = request;
+                RemoteEP = remoteEP;
+                Protocol = protocol;
+                Response = response;
+            }
+
+            #endregion
         }
     }
 }
